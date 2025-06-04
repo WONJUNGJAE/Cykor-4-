@@ -1,31 +1,31 @@
-version: '3.8'
+
 
 services:
-  cykorMongo:
+  cykormongo:
     image: mongo:latest
     ports:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=cykorRoot
-      - MONGO_INITDB_ROOT_PASSWORD=cykorPass
+      - MONGO_INITDB_ROOT_USERNAME=cykorroot
+      - MONGO_INITDB_ROOT_PASSWORD=cykorpass
 
-  cykorBackend:
-    build: ./CykorBackend
+  cykorbackend:
+    build: ./cykorbackend
     ports:
       - "5000:5000"
     depends_on:
-      - cykorMongo
+      - cykormongo
     environment:
-      - MONGO_URI=mongodb://cykorRoot:cykorPass@cykorMongo:27017/cykorDB?authSource=admin
+      - MONGO_URI=mongodb://cykorroot:cykorpass@cykormongo:27017/cykordb?authSource=admin
 
-  cykorFrontend:
-    build: ./CykorFrontend
+  cykorfrontend:
+    build: ./cykorfrontend
     ports:
-      - "3000:3000"
+      - "3000:80"
     depends_on:
-      - cykorBackend
+      - cykorbackend
 
 volumes:
   mongo-data:
